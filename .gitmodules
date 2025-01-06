@@ -1,0 +1,3 @@
+[submodule "ARENA_3.0"]
+	path = ARENA_3.0
+	url = git@github.com:GatlenCulp/ARENA_3.0.git
