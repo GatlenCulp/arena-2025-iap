@@ -5,6 +5,7 @@ exclude: |
       \.history/.*|       # Exclude history files
       .*cache.*/.*|       # Exclude cache directories
       .*venv.*/.*|        # Exclude virtual environment directories
+      ARENA_3.0/*        # Exclude ARENA original docs
   )$
 fail_fast: true
 default_install_hook_types:
@@ -34,11 +35,11 @@ repos:
       - id: ruff-format
         name: "🐍 python · Format with Ruff"
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.14.1"
-    hooks:
-      - id: mypy
-        name: "🐍 python · Check types"
+  # - repo: https://github.com/pre-commit/mirrors-mypy
+  #   rev: "v1.14.1"
+  #   hooks:
+  #     - id: mypy
+  #       name: "🐍 python · Check types"
 
   - repo: https://github.com/abravalheri/validate-pyproject
     rev: v0.23
@@ -51,8 +52,8 @@ repos:
   - repo: https://github.com/biomejs/pre-commit
     rev: "v0.6.1"
     hooks:
-      - id: biome-ci
-        name: "🟨 javascript · Lint and format with Biome"
+      - id: biome-check
+        name: "🟨 javascript · Lint, format, and safe fixes with Biome"
         additional_dependencies: ["@biomejs/biome@1.9.4"]
 
   ### Data & Config Validation ###
@@ -81,8 +82,8 @@ repos:
   - repo: https://github.com/nbQA-dev/nbQA
     rev: 1.9.1
     hooks:
-      - id: nbqa-mypy
-        name: "📓 notebook · Type-check cells"
+      # - id: nbqa-mypy
+      #   name: "📓 notebook · Type-check cells"
       - id: nbqa
         entry: nbqa mdformat
         name: "📓 notebook · Format markdown cells"

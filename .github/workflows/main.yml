@@ -69,4 +69,4 @@ jobs:
 
       - name: Check if documentation can be built
         run: uv run mkdocs build -s
-# 
+#

@@ -1,10 +1,11 @@
 version: "3"
 
 vars:
-  PROJECT_NAME: "arena-2025-iap"
+  PROJECT_NAME: "project_name"
   PYTHON_VERSION: "3.12"
   PYTHON_INTERPRETER: python
-  MODULE_NAME: "arena"
+  MODULE_NAME: "project_name"
+  DOCS_PORT: "8000"
 
 tasks:
   ###############################################################################
@@ -16,10 +17,7 @@ tasks:
     desc: Install Python dependencies
     cmds:
       #
-      #
-      - "{{.PYTHON_INTERPRETER}} -m pip install -U pip"
-      - "{{.PYTHON_INTERPRETER}} -m pip install -r requirements.txt"
-      #
+      - uv sync
       #
   #
 
@@ -28,7 +26,24 @@ tasks:
     desc: Set up python interpreter environment
     cmds:
       #
+      - uv venv
+      - 'echo ">>> New virtualenv with uv created. Activate with: source ''.venv/bin/activate''"'
+      #
   #
+
+  ###############################################################################
+  # Utilities
+  ###############################################################################
+
+  prep:
+    desc: Clean up .DS_Store files
+    cmds:
+      - rm -f **/*/.DS_store
+
+  welcome:
+    desc: Print a Welcome screen
+    cmds:
+      - curl -s https://raw.githubusercontent.com/GatlenCulp/gatlens-opinionated-template/vscode-customization/welcome.txt
 
   ###############################################################################
   # Code Quality
@@ -41,20 +56,64 @@ tasks:
       - find . -type d -name "__pycache__" -delete
 
   lint:
-    desc: Lint using flake8 and black
+    desc: Lint using ruff
     cmds:
       #
-      - flake8 {{.MODULE_NAME}}
-      - isort --check --diff --profile black {{.MODULE_NAME}}
-      - black --check --config pyproject.toml {{.MODULE_NAME}}
+      - ruff check --config pyproject.toml {{.MODULE_NAME}}
       #
 
   format:
-    desc: Format source code with black
+    desc: Format source code with ruff
     cmds:
       #
-      - black --config pyproject.toml {{.MODULE_NAME}}
+      - ruff --config pyproject.toml {{.MODULE_NAME}}
       #
+
+  ###############################################################################
+  # Documentation
+  ###############################################################################
+
+  docs-serve:
+    desc: Serve documentation locally
+    dir: docs
+    cmds:
+      #
+      - mkdocs serve -a localhost:{{.DOCS_PORT}} || echo "Instance found running on {{.DOCS_PORT}}, try killing process and rerun."
+      #
+
+  docs-publish:
+    desc: Build and deploy documentation to GitHub Pages
+    dir: docs
+    cmds:
+      - mkdocs build
+      - mkdocs gh-deploy --clean
+
+  ###############################################################################
+  # Testing
+  ###############################################################################
+
+  test:
+    desc: Run all tests
+    deps: [prep]
+    cmds:
+      - pytest -vvv --durations=0
+
+  test-fastest:
+    desc: Run tests with fail-fast option
+    deps: [prep]
+    cmds:
+      - pytest -vvv -FFF
+
+  test-continuous:
+    desc: Run tests in watch mode using pytest-watcher
+    deps: [prep]
+    cmds:
+      - ptw . --now --runner pytest --config-file pyproject.toml -vvv -FFF
+
+  test-debug-last:
+    desc: Debug last failed test with pdb
+    cmds:
+      - pytest --lf --pdb
 
   ###############################################################################
   # Data Sync
@@ -80,3 +139,5 @@ tasks:
     desc: List all available tasks
     cmds:
       - task --list
+
+  #
