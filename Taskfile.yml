@@ -1,0 +1,82 @@
+version: "3"
+
+vars:
+  PROJECT_NAME: "arena-2025-iap"
+  PYTHON_VERSION: "3.12"
+  PYTHON_INTERPRETER: python
+  MODULE_NAME: "arena"
+
+tasks:
+  ###############################################################################
+  # Dependencies & Environment
+  ###############################################################################
+
+  #
+  requirements:
+    desc: Install Python dependencies
+    cmds:
+      #
+      #
+      - "{{.PYTHON_INTERPRETER}} -m pip install -U pip"
+      - "{{.PYTHON_INTERPRETER}} -m pip install -r requirements.txt"
+      #
+      #
+  #
+
+  #
+  create-environment:
+    desc: Set up python interpreter environment
+    cmds:
+      #
+  #
+
+  ###############################################################################
+  # Code Quality
+  ###############################################################################
+
+  clean:
+    desc: Delete all compiled Python files
+    cmds:
+      - find . -type f -name "*.py[co]" -delete
+      - find . -type d -name "__pycache__" -delete
+
+  lint:
+    desc: Lint using flake8 and black
+    cmds:
+      #
+      - flake8 {{.MODULE_NAME}}
+      - isort --check --diff --profile black {{.MODULE_NAME}}
+      - black --check --config pyproject.toml {{.MODULE_NAME}}
+      #
+
+  format:
+    desc: Format source code with black
+    cmds:
+      #
+      - black --config pyproject.toml {{.MODULE_NAME}}
+      #
+
+  ###############################################################################
+  # Data Sync
+  ###############################################################################
+
+  #
+
+  ###############################################################################
+  # Project Tasks
+  ###############################################################################
+
+  #
+  data:
+    desc: Make dataset
+    deps: [requirements]
+    cmds:
+      #
+      - "{{.PYTHON_INTERPRETER}} {{.MODULE_NAME}}/dataset.py"
+      #
+  #
+
+  default:
+    desc: List all available tasks
+    cmds:
+      - task --list
