@@ -113,7 +113,13 @@ Add the object below to your projects.json file to add this project
 		"explorerExclude.backup": {},
 		"workbench.colorCustomizations": {
 			"editor.lineHighlightBackground": "#1073cf2d",
-			"editor.lineHighlightBorder": "#9fced11f"
+			"editor.lineHighlightBorder": "#9fced11f",
+			"statusBar.background": "#28632b",
+			"statusBar.foreground": "#ffffff",
+			"statusBarItem.hoverBackground": "#327e36",
+			"activityBar.background": "#183406",
+			"titleBar.activeBackground": "#224909",
+			"titleBar.activeForeground": "#F5FDEF"
 		}
 	},
 	"launch": {
