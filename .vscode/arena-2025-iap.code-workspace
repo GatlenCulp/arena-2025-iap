@@ -316,7 +316,7 @@ Add the object below to your projects.json file to add this project
 					"panel": "shared"
 				},
 				"runOptions": {
-					"runOn": "folderOpen",
+					// "runOn": "folderOpen",
 					"instanceLimit": 1
 				},
 				"isBackground": true,
@@ -386,7 +386,7 @@ Add the object below to your projects.json file to add this project
 					"color": "terminal.ansiRed"
 				},
 				"runOptions": {
-					"runOn": "folderOpen",
+					// "runOn": "folderOpen",
 					"instanceLimit": 1
 				},
 				"presentation": {
@@ -423,7 +423,7 @@ Add the object below to your projects.json file to add this project
 					"color": "terminal.ansiYellow"
 				},
 				"runOptions": {
-					"runOn": "folderOpen",
+					// "runOn": "folderOpen",
 					"instanceLimit": 1
 				},
 				"presentation": {

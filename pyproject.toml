@@ -149,7 +149,11 @@ arena = [ # Arena Required
     "frozendict>=2.4.6",
     "ftfy>=6.3.1",
     "gdown>=5.2.0",
-    "gymnasium[accept-rom-license,atari,mujoco-py,other]>=0.29.0",
+    # accept-rom-license causes issues
+    # "gymnasium[accept-rom-license,atari,mujoco-py,other]>=0.29.0",
+    # atari also causes issues
+    # "gymnasium[atari,mujoco-py,other]>=0.29.0",
+    "gymnasium[mujoco-py,other]>=0.29.0",
     "hdbscan>=0.8.40",
     "huggingface-hub>=0.27.1",
     "imageio-ffmpeg>=0.5.1",
@@ -191,7 +195,7 @@ arena = [ # Arena Required
     "torch>=2.5.1",
     "torchaudio>=2.5.1",
     "torchinfo>=1.8.0",
-    "torchtext>=0.18.0",
+    # "torchtext>=0.18.0", Causes issues
     "torchvision>=0.20.1",
     "tqdm>=4.67.1",
     "transformer-lens>=2.11.0",
@@ -209,16 +213,19 @@ arena = [ # Arena Required
 
 # ai, web, gui
 [tool.uv]
-default-groups = ["dev", "nb", "dev-doc", "dev", "dev-nb", "data", "cli", "ai-train", "arena"]
+default-groups = ["arena"]
+# default-groups = ["dev", "nb", "dev-doc", "dev", "dev-nb", "data", "cli", "ai-train", "arena"]
 
 [tool.uv.sources]
 torch = [
     { index = "pytorch-cpu", marker = "platform_system == 'Darwin'"},
-    { index = "pytorch-cu118", marker = "platform_system != 'Darwin'"}
+    { index = "pytorch-cpu", marker = "platform_system != 'Darwin'"},
+    # { index = "pytorch-cu118", marker = "platform_system != 'Darwin'"}
 ]
 torchvision = [
     { index = "pytorch-cpu", marker = "platform_system == 'Darwin'"},
-    { index = "pytorch-cu118", marker = "platform_system != 'Darwin'"}
+    { index = "pytorch-cpu", marker = "platform_system != 'Darwin'"},
+    # { index = "pytorch-cu118", marker = "platform_system != 'Darwin'"}
 ]
 circuitsvis = { git = "https://github.com/callummcdougall/CircuitsVis.git", subdirectory = "python" }
 neel-plotly = { git = "https://github.com/neelnanda-io/neel-plotly" }

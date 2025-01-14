@@ -1,0 +1,9 @@
+services:
+  arena:
+    image: ghcr.io/gatlenculp/arena-2025-iap:latest
+    build:
+      context: .. # Goes up one directory to project root
+      dockerfile: docker/arena-2025-iap.Dockerfile
+    volumes:
+      - ../:/app # Mounts project directory for development
+    # command: python your_entry_script.py  # Uncomment and modify when ready
