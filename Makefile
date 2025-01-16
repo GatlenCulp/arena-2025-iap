@@ -28,7 +28,7 @@ create_environment: ## Set up python interpreter environment
 
 .PHONY: install-homebrew
 install-homebrew: ## Install homebrew on a mac or linux system
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 .PHONY: install-prereqs
 install-prereqs: ## Installs needed dependencies with
