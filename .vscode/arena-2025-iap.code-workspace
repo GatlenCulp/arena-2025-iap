@@ -18,7 +18,11 @@ Add the object below to your projects.json file to add this project
 		{
 			"name": "root",
 			"path": ".."
-		}
+		},
+		// {
+		// 	"name": "remote",
+		// 	"path": "vscode-remote://ssh-remote+arena-runpod/workspace/arena-2025-iap",
+		// }
 		// Option #02
 		// {
 		// 	"name": "package",

@@ -26,6 +26,14 @@ create_environment: ## Set up python interpreter environment
 	uv venv
 	@echo ">>> New virtualenv with uv created. Activate with:\nsource '.venv/bin/activate'"
 
+.PHONY: install-homebrew
+install-homebrew: ## Install homebrew on a mac or linux system
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+.PHONY: install-prereqs
+install-prereqs: ## Installs needed dependencies with
+	brew install git
+	brew install uv
 
 
 .PHONY: requirements
