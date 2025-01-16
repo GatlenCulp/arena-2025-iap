@@ -16,7 +16,7 @@ update_layout_set = {
     "hovermode",
     "xaxis_title",
     "yaxis_title",
-    "colorbar",
+    "colorbar",p
     "colorscale",
     "coloraxis",
     "title_x",

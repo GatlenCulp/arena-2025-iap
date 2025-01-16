@@ -43,7 +43,7 @@ ai-train = [  # Machine learning and model training packages
     "safetensors>=0.4.5",       # Safe tensor serialization
     "scikit-learn>=1.6.0",      # Traditional ML algorithms
     # "shap>=0.46.0",             # Model explainability
-    "torch>=2.0.0",             # Deep learning framework
+    # "torch>=2.0.0",             # Deep learning framework
     "transformers>=4.47.0",     # Transformer models
     # "umap-learn>=0.5.7",        # Dimensionality reduction
     "wandb>=0.19.1",            # Experiment tracking
@@ -192,11 +192,14 @@ arena = [ # Arena Required
     "streamlit-on-hover-tabs>=1.0.1",
     "tabulate>=0.9.0",
     "tiktoken>=0.6.0",
-    "torch>=2.5.1",
-    "torchaudio>=2.5.1",
+    # "torch>=2.5.1",
+    "torch==2.4.0", # Specific version to RunPod instance
+    # "torchaudio>=2.5.1",
+    "torchaudio==2.4.0",
     "torchinfo>=1.8.0",
     # "torchtext>=0.18.0", Causes issues
-    "torchvision>=0.20.1",
+    # "torchvision>=0.20.1",
+    "torchvision==0.19.0", # Specific version needed with PyTorch 2.4.0
     "tqdm>=4.67.1",
     "transformer-lens>=2.11.0",
     "typeguard>=4.4.1",
