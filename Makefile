@@ -29,12 +29,17 @@ create_environment: ## Set up python interpreter environment
 .PHONY: install-homebrew
 install-homebrew: ## Install homebrew on a mac or linux system
 	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	# TODO: Link bin to path.
 
 .PHONY: install-prereqs
 install-prereqs: ## Installs needed dependencies with
 	brew install git
 	brew install uv
+	brew install unzip
 
+.PHONY: install-submodule
+install-submodule: ## Installs ARENA_3.0 submodule
+	git submodule update --init
 
 .PHONY: requirements
 requirements: ## Install Python Dep
