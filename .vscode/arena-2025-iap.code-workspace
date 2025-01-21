@@ -149,7 +149,6 @@ Add the object below to your projects.json file to add this project
 		// See https://go.microsoft.com/fwlink/?LinkId=827846 to learn about workspace recommendations.
 		"recommendations": [
 			// Python Development
-			"ms-python.python", // Python Environments, Language, and More
 			"ms-python.vscode-pylance", // Python Language Server w/ Typing
 			"ms-python.debugpy", // VSCode Python Debugger
 			"charliermarsh.ruff", // Fast Python Linter & Formatter
