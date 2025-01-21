@@ -124,7 +124,12 @@ Add the object below to your projects.json file to add this project
 			"activityBar.background": "#183406",
 			"titleBar.activeBackground": "#224909",
 			"titleBar.activeForeground": "#F5FDEF"
-		}
+		},
+		"sshfs.configs": [
+			{
+				"name": "arena-runpod"
+			}
+		]
 	},
 	"launch": {
 		"version": "0.2.0",
