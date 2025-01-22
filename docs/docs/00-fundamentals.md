@@ -96,3 +96,5 @@ z.shape = (8, 2, 6)
 ✅
 
 (Not continuing)
+
+The "a" in "arange" means "array" representing the fact that it returns an array rather than an iterator.

@@ -16,3 +16,5 @@ scikit-learn
 tqdm
 typer
 -e .
+
+-r requirements-dev.txt

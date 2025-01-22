@@ -1,17 +1,24 @@
 exclude: |
   (?x)^(
-      .*\{\{.*\}\}.*|    # Exclude any files with cookiecutter variables
+      .*\{\{.*\}\}.*|     # Exclude any files with cookiecutter variables
       docs/site/.*|       # Exclude mkdocs compiled files
+      docs/docs/jupyter-notebooks_files/.*|       # Exclude Jupyter Notebooks files
+      jupyter-experiments/.*|       # Exclude jupyter-experiments
       \.history/.*|       # Exclude history files
       .*cache.*/.*|       # Exclude cache directories
       .*venv.*/.*|        # Exclude virtual environment directories
-      ARENA_3\.0/.*        # Exclude ARENA original docs
   )$
 fail_fast: true
+default_language_version:
+  python: python3.12
 default_install_hook_types:
   - pre-commit
   - commit-msg
 repos:
+  #
+  # Documentation Here:
+  # https://gatlenculp.github.io/gatlens-opinionated-template/precommit/
+  #
   # ---------------------------------------------------------------------------- #
   #                              🔄 Pre-Commit Hooks                             #
   # ---------------------------------------------------------------------------- #
@@ -28,17 +35,20 @@ repos:
 
   ### Python Tools ###
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.6
+    rev: v0.9.1
     hooks:
-      # - id: ruff
-      #   args: [ --fix ]
       - id: ruff-format
         name: "🐍 python · Format with Ruff"
+      # STRICT
+      # - id: ruff
+      #   name: "🐍 python · Lint and perform safe auto-fixes with Ruff"
+      #   args: [--fix]
 
-  # - repo: https://github.com/pre-commit/mirrors-mypy
-  #   rev: "v1.14.1"
+  # STRICT
+  # - repo: https://github.com/RobertCraigie/pyright-python
+  #   rev: v1.1.391
   #   hooks:
-  #     - id: mypy
+  #     - id: pyright
   #       name: "🐍 python · Check types"
 
   - repo: https://github.com/abravalheri/validate-pyproject
@@ -49,16 +59,16 @@ repos:
         additional_dependencies: ["validate-pyproject-schema-store[all]"]
 
   ### Javascript & Web Tools ###
-  - repo: https://github.com/biomejs/pre-commit
-    rev: "v0.6.1"
-    hooks:
-      - id: biome-check
-        name: "🟨 javascript · Lint, format, and safe fixes with Biome"
-        additional_dependencies: ["@biomejs/biome@1.9.4"]
+  #   - repo: https://github.com/biomejs/pre-commit
+  #     rev: "v0.6.1"
+  #     hooks:
+  #       - id: biome-check
+  #         name: "🟨 javascript · Lint, format, and safe fixes with Biome"
+  #         additional_dependencies: ["@biomejs/biome@1.9.4"]
 
   ### Data & Config Validation ###
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.30.0
+    rev: 0.31.0
     hooks:
       - id: check-github-workflows
         name: "🐙 github-actions · Validate gh workflow files"
@@ -71,19 +81,58 @@ repos:
     rev: 0.7.21
     hooks:
       - id: mdformat
-        name: "📝 markdown · Format documentation"
+        name: "📝 markdown · Format markdown"
         additional_dependencies:
           - mdformat-gfm
           - mdformat-ruff
           - mdformat-frontmatter
           - ruff
 
+  # STRICT
+  # - repo: https://github.com/markdownlint/markdownlint
+  #   rev: v0.12.0
+  #   hooks:
+  #     - id: markdownlint
+  #       name: "📝 markdown · Lint markdown"
+
+  ### Shell ###
+
+  # STRICT
+  # - repo: https://github.com/shellcheck-py/shellcheck-py
+  #   rev: v0.10.0.1
+  #   hooks:
+  #     - id: shellcheck
+  #       name: "🐚 shell · Lint shell scripts"
+
+  # STRICT
+  # - repo: https://github.com/openstack/bashate
+  #   rev: 2.1.1
+  #   hooks:
+  #     - id: bashate
+  #       name: "🐚 shell · Check shell script code style"
+
+  ### Makefile ###
+  - repo: https://github.com/mrtazz/checkmake.git
+    rev: 0.2.2
+    hooks:
+      - id: checkmake
+        name: "🐮 Makefile · Lint Makefile"
+
+  ### SQL ###
+
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 3.3.0
+    hooks:
+      - id: sqlfluff-fix
+        name: "📊 SQL · Attempts to fix rule violations."
+      # STRICT
+      # - id: sqlfluff-lint
+      #   name: "📊 SQL · Lint SQL code files"
+
   ### Notebooks ###
   - repo: https://github.com/nbQA-dev/nbQA
     rev: 1.9.1
     hooks:
-      # - id: nbqa-mypy
-      #   name: "📓 notebook · Type-check cells"
       - id: nbqa
         entry: nbqa mdformat
         name: "📓 notebook · Format markdown cells"
@@ -95,10 +144,13 @@ repos:
           - mdformat-ruff
           - mdformat-frontmatter
           - ruff
+      # STRICT
+      # TODO: Convert to pyright
+      # - id: nbqa-mypy
+      #   name: "📓 notebook · Type-check cells"
 
   ### PNG Images ###
   - repo: https://github.com/shssoichiro/oxipng
-    name:
     rev: v9.1.3
     hooks:
       - id: oxipng
@@ -133,7 +185,6 @@ repos:
         name: "📁 filesystem/🔗 symlink · Check symlink validity"
       - id: destroyed-symlinks
         name: "📁 filesystem/🔗 symlink · Detect broken symlinks"
-
       # ------------------------------- 🌳 Git Tools ------------------------------- #
       - id: check-merge-conflict
         name: "🌳 git · Detect conflict markers"
@@ -144,27 +195,13 @@ repos:
         args: ["--branch", "main", "--branch", "master"]
       - id: check-added-large-files
         name: "🌳 git · Block large file commits"
-        args: ["--maxkb=1000"]
-
-  # ------------------------------ 🛠️ Local Tools ----------------------------- #
-
-  # - repo: local
-  #   hooks:
-  #     - id: make-lint
-  #       name: Run 'make lint'
-  #       entry: make
-  #       args: ["lint"]
-  #       language: system
+        args: ["--maxkb=20000"]
 
   # ---------------------------------------------------------------------------- #
   #                            📝 Commit Message Hooks                           #
   # ---------------------------------------------------------------------------- #
+  #
   # --------------------------- ✍️ Git Commit Quality -------------------------- #
-
-  # - repo: https://github.com/ljnsn/cz-conventional-gitmoji
-  #     rev: 0.2.4
-  #     hooks:
-  #       - id: conventional-gitmoji
 
   ### Commit Message Standards ###
   - repo: https://github.com/commitizen-tools/commitizen
@@ -173,3 +210,27 @@ repos:
       - id: commitizen
         name: "🌳 git · Validate commit message"
         stages: [commit-msg]
+        additional_dependencies: [cz-conventional-gitmoji]
+
+  # ---------------------------------------------------------------------------- #
+  #                             🧪 Fast Tests (Local)                            #
+  # ---------------------------------------------------------------------------- #
+  - repo: local
+    hooks:
+      - id: pytest-collect
+        name: 🧪 test · Validate test formatting
+        entry: ./.venv/bin/pytest tests
+        language: system
+        types: [python]
+        args: ["--collect-only"]
+        pass_filenames: false
+        always_run: true
+      # STRICT
+    #   - id: pytest-fast
+    #     name: 🧪 test · Run fast tests
+    #     entry: ./.venv/bin/pytest tests
+    #     language: system
+    #     types: [python]
+    #     args: ["--max-timeout=3"]
+    #     pass_filenames: false
+    #     always_run: true
